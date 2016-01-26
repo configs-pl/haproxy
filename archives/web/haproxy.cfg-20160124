@@ -42,7 +42,8 @@ defaults
 	stats enable
 	stats uri /stats
 	stats realm Haproxy\ Statistics
-	stats auth admin:h4^0Gt8cFm4S6lLSAn5u
+#	stats auth admin:h4^0Gt8cFm4S6lLSAn5u
+        stats auth admin:C2&siySVoJl90pXyxtqY
 	errorfile 400 /etc/haproxy/errors/400.http
 	errorfile 403 /etc/haproxy/errors/403.http
 	errorfile 408 /etc/haproxy/errors/408.http
@@ -50,6 +51,12 @@ defaults
 	errorfile 502 /etc/haproxy/errors/502.http
 	errorfile 503 /etc/haproxy/errors/503.http
 	errorfile 504 /etc/haproxy/errors/504.http
+
+frontend video-in
+   bind 10.100.100.3:5347
+ timeout client 5s
+   mode tcp
+   use_backend usertoken_cluster if { hdr_dom(Host) -i usertoken.com }
 
 frontend http-in
    bind 10.100.100.3:80
@@ -69,7 +76,6 @@ tcp-request content accept if HTTP
 
 
         ## figure out which one to use
-   	use_backend usertoken_cluster if { hdr_dom(Host) -i usertoken.com }
 	use_backend owncloud_cluster if { hdr(Host) -i owncloud.pointlook.com }
         use_backend thingtosell_cluster if { hdr_dom(Host) -i thingtosell.com }
         use_backend pointlook_cluster if { hdr_dom(Host) -i pointlook.com }
@@ -111,25 +117,12 @@ backend thingtosell_cluster
         server web02-tts 10.101.101.32:80 check cookie web02-tts
 
 backend usertoken_cluster
-	mode http
+	mode tcp
 
     cookie JSESSIONID insert nocache
     option forwardfor
-    option http-server-close
-    option forceclose
     no option httpclose
         balance source
-        server web01-ut 10.101.101.41:80 check cookie web01-ut
-        server web02-ut 10.101.101.42:80 check cookie web02-ut
+        server web01-ut 10.101.101.61:5347 check cookie web01-ut
+        server web02-ut 10.101.101.62:5347 check cookie web02-ut
 
-backend webmd_cluster
-	mode http
-
-    cookie JSESSIONID insert nocache
-    option forwardfor
-    option http-server-close
-    option forceclose
-    no option httpclose
-        balance source
-        server web01-md 10.101.101.61:80 check cookie web01-md
-        server web02-md 10.101.101.62:80 check cookie web02-md
