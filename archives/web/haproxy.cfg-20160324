@@ -59,7 +59,7 @@ defaults
 	stats enable
 	stats uri /stats
 	stats realm Haproxy\ Statistics
-        stats auth admin:C2&siySVoJl90pXyxtqY
+        stats auth admin:XXXXXXXX
 
 	## error files
 	errorfile 400 /etc/haproxy/errors/400.http
@@ -162,7 +162,7 @@ backend owncloud_cluster
 	option http-server-close
 	option forceclose
 	no option httpclose
-	balance roundrobin
+	balance source
 	server owncloud01 10.101.101.21:80 check cookie owncloud01
 
 backend treetoweb_cluster
@@ -172,7 +172,7 @@ backend treetoweb_cluster
 	no option http-server-close
 	no option forceclose
 	no option httpclose
-	balance roundrobin
+	balance source
 	hash-type consistent
 	server web01-tree 10.101.101.81:80 check cookie web01-tree
 	server web02-tree 10.101.101.82:80 check cookie web02-tree
@@ -184,7 +184,7 @@ backend pointlook_cluster
 	option http-server-close
 	option forceclose
 	no option httpclose
-	balance roundrobin
+	balance source
 	server web01-pl 10.101.101.11:80 check cookie web01-pl
 	server web02-pl 10.101.101.12:80 check cookie web02-pl
 
@@ -195,7 +195,7 @@ backend thingtosell_cluster
 	option http-server-close
 	option forceclose
 	no option httpclose
-	balance roundrobin
+	balance source
 	server web01-tts 10.101.101.31:80 check cookie web01-tts
 	server web02-tts 10.101.101.32:80 check cookie web02-tts
 
@@ -206,7 +206,7 @@ backend usertoken_cluster
 	option http-server-close
 	option forceclose
 	no option httpclose
-	balance roundrobin
+	balance source
 	server web01-ut 10.101.101.41:80 check cookie web01-ut
 	server web02-ut 10.101.101.42:80 check cookie web02-ut
 	
@@ -217,7 +217,7 @@ backend weedmd_cluster
 	option http-server-close
 	option forceclose
 	no option httpclose
-	balance roundrobin
+	balance source
 	server web01-md 10.101.101.61:80 check cookie web01-md
 	server web02-md 10.101.101.62:80 check cookie web02-md
 	
@@ -228,7 +228,7 @@ backend printerlife_cluster
 	option http-server-close
 	option forceclose
 	no option httpclose
-	balance roundrobin
+	balance source
 	server web01-life 10.101.101.71:80 check cookie web01-life
 	server web02-life 10.101.101.72:80 check cookie web02-life
 	
@@ -239,7 +239,7 @@ backend weebly_cluster
 	option http-server-close
 	option forceclose
 	no option httpclose
-	balance roundrobin
+	balance source
 	server web01-weebly 10.101.101.11:80 check cookie web01-weebly
 	server web02-weebly 10.101.101.12:80 check cookie web02-weebly
 
@@ -269,7 +269,7 @@ backend bastion_cluster
 	option http-server-close
 	option forceclose
 	no option httpclose
-	balance roundrobin
+	balance source
 	server bastion01 10.100.100.10:7000 check cookie bastion01
 
 backend dev_cluster
@@ -279,7 +279,7 @@ backend dev_cluster
 	option http-server-close
 	option forceclose
 	no option httpclose
-	balance roundrobin
+	balance source
 	server dev01 10.100.100.10:8000 check cookie dev01
 
 backend wip_cluster
@@ -289,5 +289,5 @@ backend wip_cluster
 	option http-server-close
 	option forceclose
 	no option httpclose
-	balance roundrobin
+	balance source
 	server dev01 10.100.100.10:3000 check cookie dev01
