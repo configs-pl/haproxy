@@ -59,7 +59,7 @@ defaults
 	stats enable
 	stats uri /stats
 	stats realm Haproxy\ Statistics
-        stats auth admin:C2&siySVoJl90pXyxtqY
+        stats auth admin:CHANGEME
 
 	## error files
 	errorfile 400 /etc/haproxy/errors/400.http
